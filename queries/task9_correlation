@@ -1,0 +1,20 @@
+--5. Перевірка кореляції між залученістю користувачів та здійсненням покупок
+WITH user_session_id_info AS(
+  SELECT 
+    user_pseudo_id ||
+    (SELECT ee.value.int_value FROM ev.event_params ee WHERE ee.key = 'ga_session_id')                                    AS user_session_id 
+    , max(coalesce(coalesce(
+      (SELECT ee.value.int_value FROM ev.event_params ee WHERE ee.key = 'session_engaged') 
+      , safe_cast((SELECT ee.value.string_value FROM ev.event_params ee WHERE ee.key = 'session_engaged') as integer)),0)) AS session_engaged   --if there's a session per user
+     -- merging 2 session_engaged columns with different type to get session by user 
+     -- Inner COALESCE to check both column for not null values; Outer COALESCE to return 0 if both columns are null
+     -- max - to get max boolean for one user 
+    , sum(coalesce((SELECT ee.value.int_value FROM ev.event_params ee WHERE ee.key = 'engagement_time_msec'),0))           AS user_eng_time     --total time of user activity
+    , max(CASE WHEN event_name = 'purchase' THEN 1 ELSE 0 END)                                                             AS purchase_done     --if there's purchase per user
+  FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*` ev
+  GROUP BY 1)
+SELECT 
+  corr(user_eng_time, purchase_done)      AS corr_eng_time_purchase
+  , corr(session_engaged, purchase_done)  AS corr_session_purchase
+FROM user_session_id_info
+;
