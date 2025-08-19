@@ -29,8 +29,8 @@ The project was based on two datasets:
 ## 📂 Repository Structure
 - [`queries/`](queries/) → SQL queries for each task
 - [`presentation/`](SQL_Project_presentation.pdf) → Project slides (PDF). You can find [a short video recording here](https://drive.google.com/file/d/1gomXzxLjz4N2-kmdYl83Z_vOqWZlxLTW/view?usp=sharing)
-- `contents/` → Background of the project tasks, with my own summaries and notes on SQL concepts used (e.g., CTEs, window functions, Gaps & Islands)
-- `dashboards/` → Screenshots + Links to Looker Studio dashboards below
+- [`project_content/`](project_content) → Background of the project tasks, with my own summaries and notes on SQL concepts used (e.g., CTEs, window functions, Gaps & Islands)
+- [`dashboards/`](dashboards) → Screenshots + Links to Looker Studio dashboards below
 
 ---
 
