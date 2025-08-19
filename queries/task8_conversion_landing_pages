@@ -1,0 +1,27 @@
+--Завдання 4. Порівняння конверсії між різними посадковими сторінками 
+WITH page_location AS(    --users and pages filtered by session_start
+    SELECT 
+      user_pseudo_id ||
+      (SELECT ee.value.int_value FROM ev.event_params ee WHERE ee.key = 'ga_session_id')                      AS user_session_id 
+      , (SELECT ee.value.string_value FROM ev.event_params ee WHERE ee.key = 'page_location')                 AS page_location
+      , substring((SELECT ee.value.string_value FROM ev.event_params ee WHERE ee.key = 'page_location'),41)   AS page_path                     
+    FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*` ev
+    WHERE _TABLE_SUFFIX >= '20200101' and _TABLE_SUFFIX <= '20201231'
+      AND event_name = 'session_start')
+, purchase_info AS (    -- users filtered by purchase
+     SELECT 
+      user_pseudo_id ||
+      (SELECT ee.value.int_value FROM ev.event_params ee WHERE ee.key = 'ga_session_id')   AS user_session_id 
+    FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*` ev
+    WHERE _TABLE_SUFFIX >= '20200101' and _TABLE_SUFFIX <= '20201231'
+      AND event_name = 'purchase')
+--SELECT * FROM purchase_info LIMIT 100     --to check CTE
+SELECT        --count of unique purchases and unique sessions + conversion rate 'purchase/sessions'
+  pl.page_path
+  , COUNT(DISTINCT pl.user_session_id)    AS unique_sessions_count
+  , COUNT(DISTINCT pi.user_session_id)    AS purchase_count
+  , ROUND(COUNT(DISTINCT pi.user_session_id) / COUNT(DISTINCT pl.user_session_id), 3)     AS conversion_rate 
+FROM page_location pl
+left join purchase_info pi ON pl.user_session_id = pi.user_session_id
+group by 1
+;
