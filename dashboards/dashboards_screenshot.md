@@ -3,5 +3,5 @@
 🔗 [Google & Facebook Ads Dashboard](https://lookerstudio.google.com/reporting/05538902-a092-4539-aeac-89e6e7a5080d)   
 🔗 [GA4 Dashboard](https://lookerstudio.google.com/reporting/676d5a1f-bead-421c-b0fa-86cbbc3fa102) 
 
-![Google & Facebook Ads](DBeaver_dashboard.png)  
-![GA4](GA4_dashboard.png)  
+![Google & Facebook Ads](img/DBeaver_dashboard.png)  
+![GA4](img/GA4_dashboard.png)  
