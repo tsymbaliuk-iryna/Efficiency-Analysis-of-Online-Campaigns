@@ -1,0 +1,15 @@
+--Завдання 2. Підготовка даних для побудови звітів у BI системах
+SELECT 
+  datetime(timestamp_micros(event_timestamp)) AS event_timestamp
+  , user_pseudo_id
+  , (SELECT par.value.int_value  FROM ev.event_params par WHERE par.key = 'ga_session_id') AS session_id
+  , event_name
+  , geo.country AS country
+  , device.category  
+  , traffic_source.source AS source
+  , traffic_source.medium AS medium
+  , traffic_source.name AS campaign
+FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*` ev
+WHERE (_TABLE_SUFFIX >= '20210101' and _TABLE_SUFFIX <= '20211231') AND 
+  event_name IN ('session_start','view_item','add_to_cart','begin_checkout','add_payment_info','add_shipping_info','purchase')
+;
