@@ -42,7 +42,7 @@ The project was based on two datasets:
 - Correlation between engagement time and purchases
 
 🔗 [Interactive Dashboard 1 in Looker Studio](https://lookerstudio.google.com/reporting/05538902-a092-4539-aeac-89e6e7a5080d)   
-🔗 [Dashboard 2](https://lookerstudio.google.com/reporting/676d5a1f-bead-421c-b0fa-86cbbc3fa102)
+🔗 [Dashboard 2](https://lookerstudio.google.com/reporting/3c419ed7-82c1-434c-99a1-1467dcb84a2a)
 
 ---
 
